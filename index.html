@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app="plunker">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>みえるCPI</title>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/d3/d3.min.js"></script>
+    <script src="bower_components/nvd3/build/nv.d3.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular-nvd3/dist/angular-nvd3.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/nvd3/build/nv.d3.min.css">
+    <script src="app.js"></script>
+
+    <style>
+        text {
+            font: 12px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, svg {
+            margin: 10px;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div ng-controller="MainCtrl">
+
+    <!-- Year Form -->
+    <form name="yearAndItemForm" ng-init="onInit()">
+        <!-- Type Ahead Form -->
+        <input type="text" ng-model="selectedItem"
+               typeahead="item as item.name for item in items | filter:$viewValue">
+
+        <!-- Item to select -->
+        <select ng-model="selectedItem" ng-options="item as item.name for item in items" required
+                ng-change="onChangeItem()">
+            <option value="">Please select Item Name</option>
+        </select>
+
+        <!-- Year to select -->
+        <select ng-model="selectedYr" ng-options="year as year.label for year in years" required
+                ng-change="onChangeYr()">
+            <option value="">Please select year</option>
+        </select>
+        <button ng-disabled="!yearAndItemForm.$valid" ng-click="render()">Refresh</button><br>
+    </form>
+    {{selectedItem}} {{selectedYr}}
+    <!-- visualizing chart -->
+    <nvd3 options="options" data="data"></nvd3>
+</div>
+
+</body>
+</html>

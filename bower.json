@@ -1,0 +1,27 @@
+{
+  "name": "datahandling",
+  "version": "0.0.0",
+  "authors": [
+    "skj37 <kojima37@gmail.com>"
+  ],
+  "description": "datahandling",
+  "main": "index.html",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-nvd3": "~0.1.1",
+    "angular": "~1.3.15",
+    "c3": "~0.4.10",
+    "nvd3": "~1.7.1",
+    "jquery": "~2.1.4"
+  }
+}

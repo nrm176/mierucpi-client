@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+    body {
+        font: 10px sans-serif;
+    }
+
+    svg {
+        padding: 10px 0 0 10px;
+    }
+
+    .arc {
+        stroke: #fff;
+    }
+
+</style>
+<body>
+<script src="d3/d3.min.js"></script>
+<script>
+
+    var radius = 74,
+            padding = 10;
+
+    //there are 7 types of color. each color correspond to yrRange
+    var color = d3.scale.ordinal()
+            .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+    var arc = d3.svg.arc()
+            .outerRadius(radius)
+            .innerRadius(radius - 30);
+
+    var pie = d3.layout.pie()
+            .sort(null)
+            .value(function(d) { return d.population; });
+
+    d3.csv("pie_data.csv", render);
+
+    function render(error, data) {
+        console.log(data[0]);
+        color.domain(d3.keys(data[0]).filter(function(key) { return key !== "State"; }));
+
+        data.forEach(function(d) {
+            d.datas = color.domain().map(function(yr_range) {
+                console.log(yr_range);    // name -> yr range
+                console.log(d[yr_range]); //d[name] -> population
+                return {yr_range: yr_range, population: +d[yr_range]};
+            });
+        });
+
+        var svg = d3.select("body").selectAll(".pie")
+                .data(data)
+                .enter().append("svg")
+                .attr("class", "pie")
+                .attr("width", radius * 2)
+                .attr("height", radius * 2)
+                .append("g")
+                .attr("transform", "translate(" + radius + "," + radius + ")");
+
+        svg.selectAll(".arc")
+                .data(function(d) {
+                    //console.log(d.datas);
+
+                    return pie(d.datas);
+                })
+                .enter().append("path")
+                .attr("class", "arc")
+                .attr("d", arc)
+                .style("fill", function(d) { return color(d.data.yr_range); });
+
+        //svg.append("text")
+        //        .attr("dy", ".35em")
+        //        .style("text-anchor", "middle")
+        //        .text(function(d) { return d.State; });
+
+    };
+
+</script>
+</body>
