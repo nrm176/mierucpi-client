@@ -2,16 +2,17 @@
  * Created by kojima37 on 5/1/15.
  */
 
-var app = angular.module('plunker', ['nvd3','ui.bootstrap']);
+var app = angular.module('mieru_cpi', ['nvd3','ui.bootstrap']);
 
 
 
 app.controller('MainCtrl', function($scope, $http){
 
+    URL = 'https://gentle-eyrie-4887.herokuapp.com'
     //item name to select
     //retrieve item names from Restful Flask via JSON
     //and put them into select options
-    var select_box_url = 'http://127.0.0.1:5000/select.box.json';
+    var select_box_url = URL+'/select.box.json';
     $scope.onInit=function() {
         $http.get(select_box_url)
             .success(function (data, status, headers, config) {
@@ -58,7 +59,7 @@ app.controller('MainCtrl', function($scope, $http){
         console.log("Year Selected:" + $scope.selectedYr.id);
         console.log("Item Name Selected:" + $scope.selectedItem.id);
         var yr = $scope.selectedYr;
-        var url = "http://127.0.0.1:5000/data.json?itemName="
+        var url = URL+"/data.json?itemName="
             + $scope.selectedItem.name + "&itemId="
             + $scope.selectedItem.id + "&range="+yr.id;
         console.log(url);

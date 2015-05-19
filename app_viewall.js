@@ -7,6 +7,7 @@ var app = angular.module('view_all', ['nvd3']);
 
 app.controller('ViewAllCtrl', function($scope,$http){
     //pagination
+    URL = 'https://gentle-eyrie-4887.herokuapp.com'
     var DEFAULT_NUM_OF_ITEM_PER_PAGE = 30;
     var maxItemNum = 700;
     $scope.nv_length = [];
@@ -30,7 +31,7 @@ app.controller('ViewAllCtrl', function($scope,$http){
 
     //rendering part
     $scope.doRender = function(pageNum, itemPerPage){
-        var url = 'http://127.0.0.1:5000/view_items?pageNo='+pageNum+'&itemPerPage='+itemPerPage;
+        var url = URL+'/view_items?pageNo='+pageNum+'&itemPerPage='+itemPerPage;
         $http.get(url)
             .success(function(data,status,headers,config){
                 $scope.dataSet = data['ResultSet'];
