@@ -50,11 +50,15 @@
                 ng-change="onChangeYr()">
             <option value="">Please select year</option>
         </select>
-        <button ng-disabled="!yearAndItemForm.$valid" ng-click="render()">Refresh</button><br>
+        <button ng-disabled="!yearAndItemForm.$valid" ng-click="render()">Refresh</button>
+        |
+        <button ng-click="render_barChart()" ng-model="barMsg">Bar Chart</button>
     </form>
     {{selectedItem}} {{selectedYr}}
     <!-- visualizing chart -->
-    <nvd3 options="options" data="data"></nvd3>
+    <nvd3 options="options_lineChart" data="data"></nvd3>
+    {{barMsg}}
+    <nvd3 options="options_barChart" data="data_barChart"></nvd3>
 </div>
 
 </body>

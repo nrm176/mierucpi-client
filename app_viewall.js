@@ -59,6 +59,9 @@ app.controller('ViewAllCtrl', function($scope,$http){
                 color:d3.scale.category10().range(),
                 //useInteractiveGuideline:true,
 
+                //Note that because the position of tooltip is messed up, nvd3.js used here is the forked version.
+                //useInteractiveGuideLine is disabled to deal with that issue.
+
                 xAxis:{
                     tickFormat:function(d) {
                         //console.log(new Date(d))

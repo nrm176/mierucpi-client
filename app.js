@@ -9,6 +9,7 @@ var app = angular.module('mieru_cpi', ['nvd3','ui.bootstrap']);
 app.controller('MainCtrl', function($scope, $http){
 
     URL = 'https://gentle-eyrie-4887.herokuapp.com'
+
     //item name to select
     //retrieve item names from Restful Flask via JSON
     //and put them into select options
@@ -25,6 +26,8 @@ app.controller('MainCtrl', function($scope, $http){
             })
     };
 
+    $scope.barMsg = ''; //initially do not show any msg because chart has not been rendered at this point.
+
     //year form
     $scope.years = [
         {id:"yr1",label:"Past 1 yr"}, {id:"yr3",label:"Past 3 yr"},
@@ -36,16 +39,95 @@ app.controller('MainCtrl', function($scope, $http){
 
     $scope.onChangeItem = function(){
         console.log("Change detected in Item selector");
-        $scope.render();
+        $scope.render_lineChart();
     }
 
     $scope.onChangeYr = function(){
         console.log("Change detected in Year selector");
-        $scope.render();
+        $scope.render_lineChart();
+    }
+
+    $scope.render_barChart = function(){
+        console.log("Render bar chart now");
+        $scope.barMsg = '安倍政権誕生(2012/12)以降、品目毎指数の変化率(2015年4月現在)';
+
+        var url = URL+"/view_monthly_change?month1=201504&month2=201211";
+        console.log('retrieving json from '+url);
+
+        var toolTipContentFunc = function(){
+            return function (key, x, y, e, d) {
+                //console.log(key);
+                //console.log(x);
+                //console.log(y);
+                return x+'|'+y;
+            }
+        };
+
+        var callbacks = function(){
+            /* i want to do this
+             .nv-label text{
+             font: 20px Verdana;
+             }
+             */
+            return function(){
+                d3.selectAll('.nvd3.nv-axis text').style('font-size','10px');
+            }
+        };
+
+        $http.get(url)
+            .success(function(data,status,headers,config){
+                $scope.data_barChart = data['ResultSet'];
+
+            })
+            .error(function(data,status,headers,config){
+                console.log(error);
+            });
+        $scope.options_barChart = {
+            chart: {
+                type: 'discreteBarChart',
+                height: 450,
+                width: 9000,
+                margin: {
+                    top: 5,
+                    right: 20,
+                    bottom: 100,
+                    left: 50
+                },
+                x: function(d,i){
+                    return d.label;
+                    //return i;
+                },
+
+                xAxis:{
+                    rotateLabels:90 //rotelabels 90 degree
+                },
+
+                y: function(d){return Number(d.value);},
+
+                //showYAxis: false,
+                /*
+                showValues: true,
+
+                valueFormat: function(d){
+                    return d3.format(',.2f')(d);
+                },*/
+                discretebar: {  //this is a way to dispatch function on certain action. there are more element such as
+                    //  elementDblClick, elementMouseover, and etc.
+                    dispatch: {
+                        elementClick: function (e) {
+                            console.log("u have just clicked the bar");
+                        }
+                    }
+                },
+                tooltipContent: toolTipContentFunc(),
+                callback: callbacks()
+            }
+        }
+
     }
 
     //function to call when submit button is clicked.
-    $scope.render = function(){
+    $scope.render_lineChart = function(){
 
         if (!$scope.selectedYr){
             console.log("Year range not yet selected.");
@@ -74,7 +156,7 @@ app.controller('MainCtrl', function($scope, $http){
             });
 
         //nvD3 representation
-        $scope.options = {
+        $scope.options_lineChart = {
             chart: {
                 type:'lineChart',
                 height:250,
