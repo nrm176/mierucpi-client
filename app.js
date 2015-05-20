@@ -49,7 +49,7 @@ app.controller('MainCtrl', function($scope, $http){
 
     $scope.render_barChart = function(){
         console.log("Render bar chart now");
-        $scope.barMsg = '安倍政権誕生(2012/12)以降、品目毎指数の変化率(2015年4月現在)';
+        $scope.barMsg = '安倍政権誕生(2012/12)から現在(2015/04)までの品目毎指数変化率';
 
         var url = URL+"/view_monthly_change?month1=201504&month2=201211";
         console.log('retrieving json from '+url);
