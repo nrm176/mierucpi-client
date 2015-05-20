@@ -41,6 +41,12 @@ app.controller('ViewAllCtrl', function($scope,$http){
                 console.log(error);
             });
 
+        var toolTipContentFunc = function(){
+            return function (key, x, y, e) {
+                return '<h3>' + key + '</h3>';
+            }
+        };
+
         //nvD3 representation
         $scope.options = {
             chart: {
@@ -51,7 +57,7 @@ app.controller('ViewAllCtrl', function($scope,$http){
                 x:function(d){return d[0];},
                 y:function(d){return Number(d[1]);},
                 color:d3.scale.category10().range(),
-                useInteractiveGuideline:true,
+                //useInteractiveGuideline:true,
 
                 xAxis:{
                     tickFormat:function(d) {
@@ -65,7 +71,13 @@ app.controller('ViewAllCtrl', function($scope,$http){
                     tickFormat:function(d){
                         return d3.format(',2f')(d)
                     }
+                },
+                tooltips:{
+                    //gravity:'s',
+                    enabled:true
                 }
+
+
             }
         };
 
