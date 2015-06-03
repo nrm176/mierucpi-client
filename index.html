@@ -53,12 +53,16 @@
         <button ng-disabled="!yearAndItemForm.$valid" ng-click="render()">Refresh</button>
         |
         <button ng-click="render_barChart()" ng-model="barMsg">Bar Chart</button>
+        <!-- <button ng-click="render_horizontalBarChart()">Horizontal Bar Chart</button> -->
     </form>
     {{selectedItem}} {{selectedYr}}
     <!-- visualizing chart -->
     <nvd3 options="options_lineChart" data="data"></nvd3>
     {{barMsg}}
-    <nvd3 options="options_barChart" data="data_barChart"></nvd3>
+    <nvd3 data="data_barChart" options="options_barChart"></nvd3>
+
+    <!-- comment out horizontal bar chart for now-->
+    <!-- <nvd3 data="data_horizontalBarChart" options="options_horizontalBarChart"></nvd3> -->
 </div>
 
 </body>

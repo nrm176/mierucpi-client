@@ -47,6 +47,48 @@ app.controller('MainCtrl', function($scope, $http){
         $scope.render_lineChart();
     }
 
+    $scope.render_horizontalBarChart = function(){
+        console.log("Rendering horizontal bar chart");
+
+        //asynchronous http call
+        $http({
+            url: URL+"/view_monthly_change?month1=201504&month2=201211",
+            method: 'GET'
+            })
+            .success(function(data,status,headers,config){
+                $scope.data_horizontalBarChart = data['ResultSet'].monthlyChange;
+            })
+            .error(function(data,status,headers,config){
+                console.log(error);
+            });
+
+        $scope.options_horizontalBarChart = {
+            chart: {
+                type: 'multiBarHorizontalChart',
+                width: 750,
+                height:9000,
+                margin: {
+                    top: 30,
+                    right: 40,
+                    bottom: 50,
+                    left: 200
+                },
+                color: d3.scale.category10().range(),
+                x: function (d, i) {
+                    return d.label;
+                },
+                y: function (d) {
+                    return Number(d.value);
+                },
+                showControls:false,
+                showValues:true,
+                useInteractiveGuideline:true
+
+            }
+        }
+
+    };
+
     $scope.render_barChart = function(){
         console.log("Render bar chart now");
         $scope.barMsg = '第二次安倍内閣発足(2012/12)から現在(2015/04)までの品目毎指数変化率';
@@ -56,17 +98,14 @@ app.controller('MainCtrl', function($scope, $http){
 
         var toolTipContentFunc = function(){
             return function (key, x, y, e, d) {
-                //console.log(key);
-                //console.log(x);
-                //console.log(y);
                 return x+'|'+y;
             }
         };
 
         var callbacks = function(){
             /* i want to do this
-             .nv-label text{
-             font: 20px Verdana;
+             .nvd3.nv-axis text{
+             font: 10px Verdana;
              }
              */
             return function(){
@@ -74,55 +113,81 @@ app.controller('MainCtrl', function($scope, $http){
             }
         };
 
-        $http.get(url)
+        //it is better to change bar chart width dynamically. set the width of one bar to 10px
+        //so that the width is 10*num of items
+        var getWidth = function(num){
+            return 10 * num;
+        }
+        //$scope.lenBarChartData = 0;
+        //LENONEBAR = 12;
+
+        //rewrite asynchronous http call
+        $http({
+            url: url,
+            method: 'GET'
+            })
             .success(function(data,status,headers,config){
                 $scope.data_barChart = data['ResultSet'];
+                //console.log($scope.data_barChart);
+                console.log('length of array:' + $scope.data_barChart[0].values.length);
+
+                var num = $scope.data_barChart[0].values.length;
+                $scope.options_barChart = {
+                    chart: {
+                        type: 'discreteBarChart',
+                        height: 450,
+                        width: getWidth(num),
+                        margin: {
+                            top: 5,
+                            right: 20,
+                            bottom: 100,
+                            left: 50
+                        },
+                        x: function(d,i){
+                            return d.label;
+                            //return i;
+                        },
+
+                        xAxis:{
+                            rotateLabels:90 //rotelabels 90 degree
+                        },
+
+                        y: function(d){return Number(d.value);},
+
+                        //showYAxis: false,
+                        /*
+                         showValues: true,
+
+                         valueFormat: function(d){
+                         return d3.format(',.2f')(d);
+                         },*/
+                        discretebar: {  //this is a way to dispatch function on certain action. there are more element such as
+                            //  elementDblClick, elementMouseover, and etc. see the below
+                            // , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState', 'renderEnd',
+                            // 'chartClick', 'elementClick', 'elementDblClick', 'elementMouseover', 'elementMouseout')
+
+                            dispatch: {
+                                elementClick: function (e) {
+                                    console.log("u have just clicked the bar");
+                                    //want to show what is clicked
+                                    console.log(e.point.id + ':'+ e.point.label);
+                                    var id = e.point.id;
+                                    var labelTxt = e.point.label;
+                                    $scope.selectedItem = {id:id,name:labelTxt};
+
+                                }
+                            }
+                        },
+                        tooltipContent: toolTipContentFunc(),
+                        callback: callbacks()
+                    }
+                }
 
             })
             .error(function(data,status,headers,config){
                 console.log(error);
             });
-        $scope.options_barChart = {
-            chart: {
-                type: 'discreteBarChart',
-                height: 450,
-                width: 9000,
-                margin: {
-                    top: 5,
-                    right: 20,
-                    bottom: 100,
-                    left: 50
-                },
-                x: function(d,i){
-                    return d.label;
-                    //return i;
-                },
 
-                xAxis:{
-                    rotateLabels:90 //rotelabels 90 degree
-                },
-
-                y: function(d){return Number(d.value);},
-
-                //showYAxis: false,
-                /*
-                showValues: true,
-
-                valueFormat: function(d){
-                    return d3.format(',.2f')(d);
-                },*/
-                discretebar: {  //this is a way to dispatch function on certain action. there are more element such as
-                    //  elementDblClick, elementMouseover, and etc.
-                    dispatch: {
-                        elementClick: function (e) {
-                            console.log("u have just clicked the bar");
-                        }
-                    }
-                },
-                tooltipContent: toolTipContentFunc(),
-                callback: callbacks()
-            }
-        }
 
     }
 
