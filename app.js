@@ -35,6 +35,10 @@ app.controller('MainCtrl', function($scope, $http){
         {id:"all",label:"All"}
     ];
 
+    $scope.month = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+    $scope.year = ['2015','2014','2013','2012'];
+    $scope.topbottom = [5,10,20,50,100];
+
     $scope.selectedYr = null;
 
     $scope.onChangeItem = function(){
@@ -89,11 +93,15 @@ app.controller('MainCtrl', function($scope, $http){
 
     };
 
-    $scope.render_barChart = function(){
+    $scope.render_barChart = function(from_year,from_month,to_year,to_month,n){
+        var fromdt = from_year+from_month
+        var todt = to_year+to_month
+        console.log(fromdt);
+        console.log(todt);
         console.log("Render bar chart now");
-        $scope.barMsg = '第二次安倍内閣発足(2012/12)から現在(2015/04)までの品目毎指数変化率';
+        $scope.barMsg =  fromdt+ 'から'+ todt + 'までの品目毎指数変化率';
 
-        var url = URL+"/view_monthly_change?month1=201504&month2=201211";
+        var url = URL+"/view_monthly_change?month1="+fromdt+"&month2="+todt+"&n="+n;
         console.log('retrieving json from '+url);
 
         var toolTipContentFunc = function(){
