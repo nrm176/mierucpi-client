@@ -100,7 +100,7 @@ app.controller('MainCtrl', function($scope, $http){
         console.log(fromdt);
         console.log(todt);
         console.log("Render bar chart now");
-        $scope.barMsg =  fromdt+ 'から'+ todt + 'までの品目毎指数変化率トップ・ワースト'+n;
+        $scope.barMsg =  fromdt+ 'から'+ todt + 'までの品目毎指数変化率トップ・ワースト'+n+" *除く食料品";
 
         var url = URL+"/view_monthly_change?month1="+todt+"&month2="+fromdt+"&n="+n;
         console.log('retrieving json from '+url);
