@@ -26,7 +26,8 @@ app.controller('MainCtrl', function($scope, $http){
             })
     };
 
-    $scope.barMsg = ''; //initially do not show any msg because chart has not been rendered at this point.
+    $scope.barMsg = '';
+    //initially do not show any msg because chart has not been rendered at this point.
 
     //year form
     $scope.years = [
@@ -101,7 +102,7 @@ app.controller('MainCtrl', function($scope, $http){
         console.log("Render bar chart now");
         $scope.barMsg =  fromdt+ 'から'+ todt + 'までの品目毎指数変化率トップ・ワースト'+n;
 
-        var url = URL+"/view_monthly_change?month1="+fromdt+"&month2="+todt+"&n="+n;
+        var url = URL+"/view_monthly_change?month1="+todt+"&month2="+fromdt+"&n="+n;
         console.log('retrieving json from '+url);
 
         var toolTipContentFunc = function(){
