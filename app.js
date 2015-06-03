@@ -99,7 +99,7 @@ app.controller('MainCtrl', function($scope, $http){
         console.log(fromdt);
         console.log(todt);
         console.log("Render bar chart now");
-        $scope.barMsg =  fromdt+ 'から'+ todt + 'までの品目毎指数変化率';
+        $scope.barMsg =  fromdt+ 'から'+ todt + 'までの品目毎指数変化率トップ・ワースト'+n;
 
         var url = URL+"/view_monthly_change?month1="+fromdt+"&month2="+todt+"&n="+n;
         console.log('retrieving json from '+url);
@@ -124,6 +124,15 @@ app.controller('MainCtrl', function($scope, $http){
         //it is better to change bar chart width dynamically. set the width of one bar to 10px
         //so that the width is 10*num of items
         var getWidth = function(num){
+            if (num <=10){
+                return 300;
+            }
+            if (num <= 20){
+                return 800;
+            }
+            if (num <= 50){
+                return 1000;
+            }
             return 10 * num;
         }
         //$scope.lenBarChartData = 0;

@@ -71,8 +71,8 @@
         <label>Top/Bottom</label>
         <select ng-model="top_bottom" ng-options="tb for tb in topbottom" required></select>
     </form>
-
-    <button ng-click="render_barChart(from_year,from_month,to_year,to_month,top_bottom)" ng-model="barMsg">Bar Chart</button>
+    <button ng-click="render_barChart(from_year,from_month,to_year,to_month,top_bottom)" ng-model="barMsg">Show Bar Chart</button>
+    <br>
     {{barMsg}}
     <nvd3 data="data_barChart" options="options_barChart"></nvd3>
 
