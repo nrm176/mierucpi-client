@@ -51,7 +51,7 @@
             <option value="">Please select year</option>
         </select>
         <button ng-disabled="!yearAndItemForm.$valid" ng-click="render()">Refresh</button>
-        <!-- <button ng-click="render_horizontalBarChart()">Horizontal Bar Chart</button> -->
+
     </form>
     <!-- {{selectedItem}} {{selectedYr}} -->
     <!-- visualizing chart -->
@@ -59,7 +59,7 @@
 
     <!-- Bar Chart - select top&bottom n -->
     <hr>
-    <form>
+    <form name="barChart">
         <label>From:</label>
         <select ng-model="from_year" ng-options="y for y in year" required></select>
         <select ng-model="from_month" ng-options="m for m in month" required></select>
@@ -71,13 +71,17 @@
         <label>Top/Bottom</label>
         <select ng-model="top_bottom" ng-options="tb for tb in topbottom" required></select>
     </form>
-    <button ng-click="render_barChart(from_year,from_month,to_year,to_month,top_bottom)" ng-model="barMsg">Show Bar Chart</button>
+    <button ng-disabled="!barChart.$valid"
+            ng-click="render_barChart(from_year,from_month,to_year,to_month,top_bottom)" ng-model="barMsg">
+        Show Bar Chart</button>
     <br>
     {{barMsg}}
     <nvd3 data="data_barChart" options="options_barChart"></nvd3>
 
-    <!-- comment out horizontal bar chart for now-->
-    <!-- <nvd3 data="data_horizontalBarChart" options="options_horizontalBarChart"></nvd3> -->
+    <button ng-disabled="!barChart.$valid"
+            ng-click="render_horizontalBarChart(from_year,from_month,to_year,to_month,top_bottom)">
+        Horizontal Bar Chart</button>
+    <nvd3 data="data_horizontalBarChart" options="options_horizontalBarChart"></nvd3>
 </div>
 
 </body>

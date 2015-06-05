@@ -52,45 +52,60 @@ app.controller('MainCtrl', function($scope, $http){
         $scope.render_lineChart();
     }
 
-    $scope.render_horizontalBarChart = function(){
+    var getWidth = function(num){
+        if (num <=10){
+            return 300;
+        }
+        if (num <= 20){
+            return 800;
+        }
+        if (num <= 50){
+            return 1000;
+        }
+        return 10 * num;
+    }
+
+    $scope.render_horizontalBarChart = function(from_year,from_month,to_year,to_month,n){
         console.log("Rendering horizontal bar chart");
+
+        var fromdt = from_year+from_month
+        var todt = to_year+to_month
 
         //asynchronous http call
         $http({
-            url: URL+"/view_monthly_change?month1=201504&month2=201211",
+            url: URL+"/view_monthly_change?month1="+todt+"&month2="+fromdt+"&n="+n,
             method: 'GET'
             })
             .success(function(data,status,headers,config){
-                $scope.data_horizontalBarChart = data['ResultSet'].monthlyChange;
+                $scope.data_horizontalBarChart = data['ResultSet'];
+                console.table($scope.data_horizontalBarChart);
+
+                var num = $scope.data_horizontalBarChart[0].values.length
+                $scope.options_horizontalBarChart = {
+                    chart: {
+                        type: 'multiBarHorizontalChart',
+                        width: 750,
+                        height:getWidth(num),
+                        margin: {
+                            top: 30, right: 40, bottom: 50, left: 200
+                        },
+                        //color: '#d67777',
+                        x: function (d, i) {
+                            return d.label;
+                        },
+                        y: function (d) {
+                            return Number(d.value);
+                        },
+                        showControls:false,
+                        showValues:true,
+                        useInteractiveGuideline:true
+
+                    }
+                }
             })
             .error(function(data,status,headers,config){
                 console.log(error);
             });
-
-        $scope.options_horizontalBarChart = {
-            chart: {
-                type: 'multiBarHorizontalChart',
-                width: 750,
-                height:9000,
-                margin: {
-                    top: 30,
-                    right: 40,
-                    bottom: 50,
-                    left: 200
-                },
-                color: d3.scale.category10().range(),
-                x: function (d, i) {
-                    return d.label;
-                },
-                y: function (d) {
-                    return Number(d.value);
-                },
-                showControls:false,
-                showValues:true,
-                useInteractiveGuideline:true
-
-            }
-        }
 
     };
 
@@ -192,6 +207,7 @@ app.controller('MainCtrl', function($scope, $http){
                                     var id = e.point.id;
                                     var labelTxt = e.point.label;
                                     $scope.selectedItem = {id:id,name:labelTxt};
+                                    console.log($scope.selectedItem)
 
                                 }
                             }
