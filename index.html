@@ -39,28 +39,33 @@
 
     <form name="yearAndItemForm" ng-init="onInit()">
         <div class="row">
-            <!-- Type Ahead Form -->
-            <div class="col-xs-5">
-                <input type="text" ng-model="selectedItem"
-                       typeahead="item as item.name for item in items | filter:$viewValue"
-                       typeahead-on-select="onChangeItem()">
-            </div>
-        </div>
-
         <!-- Item to select -->
-        <div class="row">
-            <div class="col-xs-5">
+
+            <div class="col-xs-12">
+                <label>Item:</label>
                 <select class="form-control" ng-model="selectedItem" ng-options="item as item.name for item in items"
                         required
                         ng-change="onChangeItem()">
                     <option value="">Please select Item Name</option>
                 </select>
+                <input type="text" ng-model="selectedItem"
+                       typeahead="item as item.name for item in items | filter:$viewValue"
+                       typeahead-on-select="onChangeItem()">
             </div>
-        </div>
+
+            <!-- Type Ahead Form
+            <div class="col-xs-6">
+                <input type="text" ng-model="selectedItem"
+                       typeahead="item as item.name for item in items | filter:$viewValue"
+                       typeahead-on-select="onChangeItem()">
+            </div> -->
+
 
         <!-- Year to select -->
+</div>
         <div class="row">
-            <div class="col-xs-5">
+            <div class="col-xs-12">
+                <label>Range:</label>
                 <select class="form-control" ng-model="selectedYr" ng-options="year as year.label for year in years"
                         required
                         ng-change="onChangeYr()">
@@ -68,19 +73,16 @@
                 </select>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-xs-5">
                 <button ng-disabled="!yearAndItemForm.$valid" ng-click="render_lineChart()"
                         type="button" class="btn btn-primary">Refresh
                 </button>
-            </div>
-        </div>
+
+
     </form>
     <!-- {{selectedItem}} {{selectedYr}} -->
     <!-- visualizing chart -->
     <div class="row">
-        <div class="col-xs-8">
+        <div class="col-xs-12">
             <nvd3 options="options_lineChart" data="data"></nvd3>
         </div>
     </div>
@@ -89,23 +91,31 @@
     <hr>
     <form name="barChart">
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-12">
                 <label>From:</label>
-                <select class="form-control" ng-model="from_year" ng-options="y for y in year" required></select>
-                <select class="form-control" ng-model="from_month" ng-options="m for m in month" required></select>
+                <select class="form-control" ng-model="from_year" ng-options="y for y in year" required><option value="">Year</option></select>
+                <select class="form-control" ng-model="from_month" ng-options="m for m in month" required><option value="">Month</option></select>
+            </div>
             </div>
 
-            <div class="col-xs-4">
+        <div class="row">
+
+            <div class="col-xs-12">
                 <label>To:</label>
-                <select class="form-control" ng-model="to_year" ng-options="y for y in year" required></select>
-                <select class="form-control" ng-model="to_month" ng-options="m for m in month" required></select>
+                <select class="form-control" ng-model="to_year" ng-options="y for y in year" required><option value="">Year</option></select>
+                <select class="form-control" ng-model="to_month" ng-options="m for m in month" required><option value="">Month</option></select>
+            </div>
             </div>
 
-            <div class="col-xs-4">
+        <div class="row">
+
+            <div class="col-xs-12">
                 <label>Top/Bottom</label>
                 <select class="form-control" ng-model="top_bottom" ng-options="tb for tb in topbottom"
                         required></select>
             </div>
+
+
         </div>
     </form>
 
