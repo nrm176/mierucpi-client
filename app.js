@@ -2,7 +2,7 @@
  * Created by kojima37 on 5/1/15.
  */
 
-var app = angular.module('mieru_cpi', ['nvd3','ui.bootstrap']);
+var app = angular.module('mieru_cpi', ['nvd3','ui.bootstrap', 'angular-loading-bar']);
 
 
 
