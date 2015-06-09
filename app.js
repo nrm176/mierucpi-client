@@ -33,6 +33,7 @@ app.controller('MainCtrl', function($scope, $http){
     $scope.years = [
         {id:"yr1",label:"Past 1 yr"}, {id:"yr3",label:"Past 3 yr"},
         {id:"yr5",label:"Past 5 yr"}, {id:"yr10",label:"Past 10 yr"},
+        {id:"yr20",label:"Past 20 yr"},{id:"yr30",label:"Past 30 yr"},
         {id:"all",label:"All"}
     ];
 
