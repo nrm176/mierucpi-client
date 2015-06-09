@@ -20,12 +20,8 @@
         }
 
         svg {
-            display: block;
-        }
-
-        html, body, svg {
             margin: 10px;
-            padding: 0px;
+            padding: 5px;
             width: 100%;
             height: 100%;
         }
@@ -39,7 +35,7 @@
 
     <form name="yearAndItemForm" ng-init="onInit()">
         <div class="row">
-        <!-- Item to select -->
+            <!-- Item to select -->
 
             <div class="col-xs-12">
                 <label>Item:</label>
@@ -48,21 +44,14 @@
                         ng-change="onChangeItem()">
                     <option value="">Please select Item Name</option>
                 </select>
+                <!-- Type Ahead Form -->
                 <input type="text" ng-model="selectedItem"
                        typeahead="item as item.name for item in items | filter:$viewValue"
                        typeahead-on-select="onChangeItem()">
             </div>
 
-            <!-- Type Ahead Form
-            <div class="col-xs-6">
-                <input type="text" ng-model="selectedItem"
-                       typeahead="item as item.name for item in items | filter:$viewValue"
-                       typeahead-on-select="onChangeItem()">
-            </div> -->
-
-
-        <!-- Year to select -->
-</div>
+            <!-- Year to select -->
+        </div>
         <div class="row">
             <div class="col-xs-12">
                 <label>Range:</label>
@@ -73,9 +62,9 @@
                 </select>
             </div>
         </div>
-                <button ng-disabled="!yearAndItemForm.$valid" ng-click="render_lineChart()"
-                        type="button" class="btn btn-primary">Refresh
-                </button>
+        <button ng-disabled="!yearAndItemForm.$valid" ng-click="render_lineChart()"
+                type="button" class="btn btn-primary">Refresh
+        </button>
 
 
     </form>
@@ -91,49 +80,71 @@
     <hr>
     <form name="barChart">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-5">
                 <label>From:</label>
-                <select class="form-control" ng-model="from_year" ng-options="y for y in year" required><option value="">Year</option></select>
-                <select class="form-control" ng-model="from_month" ng-options="m for m in month" required><option value="">Month</option></select>
+                <select class="form-control" ng-model="from_year" ng-options="y for y in year" required>
+                    <option value="">Year</option>
+                </select>
+                <select class="form-control" ng-model="from_month" ng-options="m for m in month" required>
+                    <option value="">Month</option>
+                </select>
             </div>
-            </div>
+        </div>
 
         <div class="row">
-
-            <div class="col-xs-12">
+            <div class="col-xs-5">
                 <label>To:</label>
-                <select class="form-control" ng-model="to_year" ng-options="y for y in year" required><option value="">Year</option></select>
-                <select class="form-control" ng-model="to_month" ng-options="m for m in month" required><option value="">Month</option></select>
+                <select class="form-control" ng-model="to_year" ng-options="y for y in year" required>
+                    <option value="">Year</option>
+                </select>
+                <select class="form-control" ng-model="to_month" ng-options="m for m in month" required>
+                    <option value="">Month</option>
+                </select>
             </div>
-            </div>
+        </div>
 
         <div class="row">
-
-            <div class="col-xs-12">
+            <div class="col-xs-5">
                 <label>Top/Bottom</label>
                 <select class="form-control" ng-model="top_bottom" ng-options="tb for tb in topbottom"
                         required></select>
             </div>
-
-
         </div>
     </form>
 
+    <div class="row">
+        <div class="col-xs-5">
     <button ng-disabled="!barChart.$valid"
             ng-click="render_barChart(from_year,from_month,to_year,to_month,top_bottom)" ng-model="barMsg"
             type="button" class="btn btn-primary">
         Show Bar Chart
     </button>
+        </div>
+    </div>
     <br>
     {{barMsg}}
-    <nvd3 data="data_barChart" options="options_barChart"></nvd3>
+    <div class="row">
+        <div class="col-xs-12">
+            <nvd3 data="data_barChart" options="options_barChart"></nvd3>
+        </div>
+    </div>
 
+
+    <div class="row">
+        <div class="col-xs-5">
     <button ng-disabled="!barChart.$valid"
             ng-click="render_horizontalBarChart(from_year,from_month,to_year,to_month,top_bottom)"
             type="button" class="btn btn-primary">
         Horizontal Bar Chart
     </button>
-    <nvd3 data="data_horizontalBarChart" options="options_horizontalBarChart"></nvd3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <nvd3 data="data_horizontalBarChart" options="options_horizontalBarChart"></nvd3>
+        </div>
+    </div>
+
 </div>
 
 </body>

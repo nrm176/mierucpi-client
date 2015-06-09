@@ -258,8 +258,8 @@ app.controller('MainCtrl', function($scope, $http){
         $scope.options_lineChart = {
             chart: {
                 type:'lineChart',
-                height:250,
-                width:450,
+                height:450,
+                //width:450,
                 margin:{ top:20, right:20, bottom:60, left:65 },
                 x:function(d){return d[0];},
                 y:function(d){return Number(d[1]);},
