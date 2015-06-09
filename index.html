@@ -37,7 +37,8 @@
     <form name="yearAndItemForm" ng-init="onInit()">
         <!-- Type Ahead Form -->
         <input type="text" ng-model="selectedItem"
-               typeahead="item as item.name for item in items | filter:$viewValue">
+               typeahead="item as item.name for item in items | filter:$viewValue"
+               typeahead-on-select="onChangeItem()">
 
         <!-- Item to select -->
         <select ng-model="selectedItem" ng-options="item as item.name for item in items" required
@@ -50,7 +51,7 @@
                 ng-change="onChangeYr()">
             <option value="">Please select year</option>
         </select>
-        <button ng-disabled="!yearAndItemForm.$valid" ng-click="render()">Refresh</button>
+        <button ng-disabled="!yearAndItemForm.$valid" ng-click="render_lineChart()">Refresh</button>
 
     </form>
     <!-- {{selectedItem}} {{selectedYr}} -->
