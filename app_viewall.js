@@ -2,7 +2,7 @@
  * Created by kojima37 on 5/3/15.
  */
 
-var app = angular.module('view_all', ['nvd3']);
+var app = angular.module('view_all', ['nvd3', 'ui.bootstrap', 'angular-loading-bar']);
 
 
 app.controller('ViewAllCtrl', function($scope,$http){
@@ -15,6 +15,7 @@ app.controller('ViewAllCtrl', function($scope,$http){
         $scope.nv_length.push(i);
     }
 
+
     //when page button is clicked
     var itemPerPage = DEFAULT_NUM_OF_ITEM_PER_PAGE;
     $scope.onClick = function(pageNum, itemPerPage){
@@ -26,6 +27,10 @@ app.controller('ViewAllCtrl', function($scope,$http){
 
     //what to do when the page is first loaded by browser
     $scope.onInit = function(){
+        $scope.totalItems = maxItemNum;
+        console.log("item num:" + $scope.totalItems);
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = itemPerPage;
         $scope.doRender(1, itemPerPage);
     };
 
@@ -61,7 +66,6 @@ app.controller('ViewAllCtrl', function($scope,$http){
 
                 //Note that because the position of tooltip is messed up, nvd3.js used here is the forked version.
                 //useInteractiveGuideLine is disabled to deal with that issue.
-
                 xAxis:{
                     tickFormat:function(d) {
                         //console.log(new Date(d))
@@ -69,7 +73,6 @@ app.controller('ViewAllCtrl', function($scope,$http){
                     },
                     staggerLabels:true
                 },
-
                 yAxis:{
                     tickFormat:function(d){
                         return d3.format(',2f')(d)
@@ -79,12 +82,7 @@ app.controller('ViewAllCtrl', function($scope,$http){
                     //gravity:'s',
                     enabled:true
                 }
-
-
             }
         };
-
     }
-
-
 });

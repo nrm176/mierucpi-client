@@ -17,6 +17,16 @@
     <script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
     <link rel="stylesheet" type="text/css" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
     <script src="app.js"></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-63925845-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
 
     <style>
         text {
@@ -49,7 +59,7 @@
                     <option value="">Please select Item Name</option>
                 </select>
                 <!-- Type Ahead Form -->
-                <input type="text" ng-model="selectedItem"
+                <input type="text" ng-model="selectedItem" class="form-control" placeholder="type item name"
                        typeahead="item as item.name for item in items | filter:$viewValue"
                        typeahead-on-select="onChangeItem()">
             </div>
@@ -109,7 +119,7 @@
 
         <div class="row">
             <div class="col-xs-5">
-                <label>Top/Bottom</label>
+                <label>Best/Worst</label>
                 <select class="form-control" ng-model="top_bottom" ng-options="tb for tb in topbottom"
                         required></select>
             </div>

@@ -9,8 +9,12 @@
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/angular-nvd3/dist/angular-nvd3.min.js"></script>
     <script src="bower_components/ng-simplePagination/simplePagination.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="bower_components/nvd3/build/nv.d3.min.css">
     <link rel="stylesheet" type="text/css" href="bower_components/jquery.simplePagination/simplePagination.css">
+    <script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
     <script src="app_viewall.js"></script>
 
     <style>
@@ -41,10 +45,12 @@
 
 
 <div ng-controller="ViewAllCtrl" ng-init="onInit()">
-    <span ng-repeat="pageNum in nv_length">
+    <!-- <span ng-repeat="pageNum in nv_length">
         <span ng-click="onClick(pageNum)" class="button">{{pageNum}}</span>
     </span>
-    <hr>
+    <hr> -->
+    <pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="onClick(currentPage)"></pagination>
+
     <table border="1">
         <tr ng-repeat="data in dataSet">
             <td ng-repeat="d in data">
